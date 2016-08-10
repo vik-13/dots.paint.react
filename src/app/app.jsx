@@ -1,11 +1,19 @@
 import React from 'react';
 
-import './app.scss';
+import PaintArea from './paint-area/paint-area';
+import Tools from './controls/tools/tools';
+import Output from './controls/output/output';
+import Layouts from './controls/layouts/layouts';
 
 export default class App extends React.Component {
     render() {
         return (
-            <h1>It works!!! Yeah!!!</h1>
+            <div class="app">
+                <PaintArea />
+                <Tools />
+                <Output />
+                <Layouts />
+            </div>
         );
     }
 }

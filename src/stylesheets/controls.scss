@@ -1,0 +1,44 @@
+.controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.control {
+  position: absolute;
+  border: 1px solid $header-color;
+
+  &.tools {
+    width: 100px;
+    top: 30px;
+    left: 20px;
+  }
+
+  &.output {
+    width: 80%;
+    bottom: 30px;
+    left: -40%;
+    margin-left: 50%;
+  }
+
+  &.layouts {
+    width: 100px;
+    top: 30px;
+    right: 20px;
+  }
+
+  .control-header {
+    background-color: $header-color;
+    text-align: center;
+    font-size: 10px;
+    height: 14px;
+    line-height: 14px;
+  }
+
+  .control-body {
+    padding: 10px;
+    text-align: center;
+    font-size: 10px;
+    line-height: 14px;
+  }
+}
