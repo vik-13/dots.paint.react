@@ -1,4 +1,4 @@
-import Layouts from './layouts';
+import DrawLayouts from './layouts';
 
 let highlights = [];
 let isMoving = false;
@@ -6,7 +6,7 @@ let isMoving = false;
 export default class Paint {
 
     static update(x, y) {
-        var layout = Layouts.getCurrentLayout(),
+        var layout = DrawLayouts.getCurrentLayout(),
             i, r;
 
         if (!isMoving) {
@@ -39,7 +39,7 @@ export default class Paint {
         if (isMoving) {
             isMoving = false;
         } else {
-            Layouts.getCurrentLayout().push(x, y);
+            DrawLayouts.getCurrentLayout().push(x, y);
         }
     }
 }

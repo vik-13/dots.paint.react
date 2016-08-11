@@ -1,4 +1,4 @@
-import Layouts from './layouts';
+import DrawLayouts from './layouts';
 
 let canvas;
 let context;
@@ -25,9 +25,9 @@ export default class Render {
     }
 
     static drawLayouts() {
-        var layouts = Layouts.getLayouts(), i;
+        var layouts = DrawLayouts.getLayouts(), i;
         for (i = 0; i < layouts.length; i++) {
-            if (layouts[i].dots.length > 1 && layouts[i].visibility) {
+            if (layouts[i].dots.length >= 1 && layouts[i].visibility) {
                 this.drawLayout(layouts[i]);
             }
         }
@@ -44,7 +44,7 @@ export default class Render {
             } else {
                 context.lineTo(layout.dots[i].x, layout.dots[i].y);
             }
-            if (layout.dots[i].highlight && !layout.locked && Layouts.getCurrentLayout() == layout) {
+            if (layout.dots[i].highlight && !layout.locked && DrawLayouts.getCurrentLayout() == layout) {
                 this.drawHighlight(layout.dots[i].x, layout.dots[i].y);
             }
         }

@@ -1,11 +1,11 @@
-import Layouts from './layouts';
+import DrawLayouts from './layouts';
 import Render from './render';
 import Paint from './paint';
 
 
 export default class Draw {
     static init() {
-        Layouts.add();
+        DrawLayouts.add();
 
         Render.init();
 
