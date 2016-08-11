@@ -8,28 +8,28 @@ export default class PaintArea extends React.Component {
     }
 
     componentDidMount() {
-        Draw.init();
+        this.draw = new Draw('paint-area');
     }
 
     handleMouseDown(event) {
-        Draw.handleMouseDown(event);
+        this.draw.handleMouseDown(event);
     }
 
     handleMouseMove(event) {
-        Draw.handleMouseMove(event);
+        this.draw.handleMouseMove(event);
     }
 
     handleMouseUp(event) {
-        Draw.handleMouseUp(event);
+        this.draw.handleMouseUp(event);
     }
 
     render() {
         return (
             <div class="paint-area">
                 <canvas id="paint-area"
-                        onMouseDown={this.handleMouseDown}
-                        onMouseMove={this.handleMouseMove}
-                        onMouseUp={this.handleMouseUp}/>
+                        onMouseDown={this.handleMouseDown.bind(this)}
+                        onMouseMove={this.handleMouseMove.bind(this)}
+                        onMouseUp={this.handleMouseUp.bind(this)}/>
             </div>
         );
     }

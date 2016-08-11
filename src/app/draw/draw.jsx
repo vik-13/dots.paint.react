@@ -4,32 +4,34 @@ import Paint from './paint';
 
 
 export default class Draw {
-    static init() {
-        DrawLayouts.add();
+    constructor(canvasId) {
+        this.canvasId = canvasId;
 
-        Render.init();
+        this.drawLayouts = new DrawLayouts();
+        this.paint = new Paint(this.drawLayouts);
+        this.render = new Render(this.canvasId, this.drawLayouts);
 
         this.lifeCycle();
     }
 
-    static lifeCycle() {
-        Render.render();
+    lifeCycle() {
+        this.render.render();
         window.requestAnimationFrame(this.lifeCycle.bind(this));
     }
 
-    static handleMouseDown() {
-        Paint.down();
+    handleMouseDown() {
+        this.paint.down();
     }
 
-    static handleMouseMove(event) {
+    handleMouseMove(event) {
         let x = event.clientX - event.currentTarget.offsetLeft;
         let y = event.clientY - event.currentTarget.offsetTop;
-        Paint.update(x, y);
+        this.paint.update(x, y);
     }
 
-    static handleMouseUp(event) {
+    handleMouseUp(event) {
         let x = event.clientX - event.currentTarget.offsetLeft;
         let y = event.clientY - event.currentTarget.offsetTop;
-        Paint.up(x, y);
+        this.paint.up(x, y);
     }
 }

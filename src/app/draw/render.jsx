@@ -1,68 +1,64 @@
-import DrawLayouts from './layouts';
-
-let canvas;
-let context;
-let size;
 export default class Render {
-    static init() {
-        canvas = document.getElementById('paint-area');
-        context = canvas.getContext('2d');
-        size = {
+    constructor(canvasId, drawLayouts) {
+        this.canvas = document.getElementById(canvasId);
+        this.context = this.canvas.getContext('2d');
+        this.size = {
             x: 320,
             y: 200
         };
+        this.drawLayouts = drawLayouts;
     }
 
-    static render() {
+    render() {
         this.clean();
 
-        this.drawLayouts();
+        this.renderLayouts();
     }
 
-    static clean() {
-        context.fillStyle = '#ffffff';
-        context.fillRect( 0, 0, size.x, size.y );
+    clean() {
+        this.context.fillStyle = '#ffffff';
+        this.context.fillRect( 0, 0, this.size.x, this.size.y );
     }
 
-    static drawLayouts() {
-        var layouts = DrawLayouts.getLayouts(), i;
+    renderLayouts() {
+        var layouts = this.drawLayouts.getLayouts(), i;
         for (i = 0; i < layouts.length; i++) {
             if (layouts[i].dots.length >= 1 && layouts[i].visibility) {
-                this.drawLayout(layouts[i]);
+                this.renderLayout(layouts[i]);
             }
         }
     }
 
-    static drawLayout(layout) {
+    renderLayout(layout) {
         var i;
 
-        context.save();
-        context.beginPath();
+        this.context.save();
+        this.context.beginPath();
         for (i = 0; i < layout.dots.length; i++) {
             if (i == 0) {
-                context.moveTo(layout.dots[i].x, layout.dots[i].y);
+                this.context.moveTo(layout.dots[i].x, layout.dots[i].y);
             } else {
-                context.lineTo(layout.dots[i].x, layout.dots[i].y);
+                this.context.lineTo(layout.dots[i].x, layout.dots[i].y);
             }
-            if (layout.dots[i].highlight && !layout.locked && DrawLayouts.getCurrentLayout() == layout) {
-                this.drawHighlight(layout.dots[i].x, layout.dots[i].y);
+            if (layout.dots[i].highlight && !layout.locked && this.drawLayouts.getCurrentLayout() == layout) {
+                this.renderHighlight(layout.dots[i].x, layout.dots[i].y);
             }
         }
         if (layout.endless && layout.dots.length > 2) {
-            context.lineTo(layout.dots[0].x, layout.dots[0].y);
+            this.context.lineTo(layout.dots[0].x, layout.dots[0].y);
         }
-        context.strokeStyle = '#330000';
-        context.lineWidth = 3;
-        context.lineJoin = 'miter';
-        context.stroke();
-        context.restore();
+        this.context.strokeStyle = '#330000';
+        this.context.lineWidth = 3;
+        this.context.lineJoin = 'miter';
+        this.context.stroke();
+        this.context.restore();
     }
 
-    static drawHighlight(x, y) {
-        context.arc(x, y, 5, 0, Math.PI * 2);
-        context.strokeStyle = '#330000';
-        context.lineWidth = 1;
-        context.stroke();
-        context.moveTo(x, y);
+    renderHighlight(x, y) {
+        this.context.arc(x, y, 5, 0, Math.PI * 2);
+        this.context.strokeStyle = '#330000';
+        this.context.lineWidth = 1;
+        this.context.stroke();
+        this.context.moveTo(x, y);
     }
 }

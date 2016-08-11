@@ -1,29 +1,34 @@
 import Layout from './layout';
 
-let layouts = [];
-let currentLayout = false;
 export default class DrawLayouts {
-    static add() {
+    constructor() {
+        this.layouts = [];
+        this.currentLayout = false;
+
+        this.add();
+    }
+
+    add() {
         let layout = new Layout();
-        layouts.push(layout);
+        this.layouts.push(layout);
 
-        currentLayout = layout;
+        this.currentLayout = layout;
     }
 
-    static remove() {
+    remove() {
 
     }
 
-    static getLayouts() {
-        return layouts;
+    getLayouts() {
+        return this.layouts;
     }
 
-    static getCurrentLayout() {
-        return currentLayout;
+    getCurrentLayout() {
+        return this.currentLayout;
     }
 
-    static setCurrentLayout(layout) {
-        currentLayout = layout;
+    setCurrentLayout(layout) {
+        this.currentLayout = layout;
     }
 
 }

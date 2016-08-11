@@ -1,45 +1,45 @@
-import DrawLayouts from './layouts';
-
-let highlights = [];
-let isMoving = false;
-
 export default class Paint {
+    constructor(drawLayouts) {
+        this.drawLayouts = drawLayouts;
+        this.highlights = [];
+        this.isMoving = false;
+    }
 
-    static update(x, y) {
-        var layout = DrawLayouts.getCurrentLayout(),
+    update(x, y) {
+        var layout = this.drawLayouts.getCurrentLayout(),
             i, r;
 
-        if (!isMoving) {
-            highlights.length = 0;
+        if (!this.isMoving) {
+            this.highlights.length = 0;
 
             for (i = 0; i < layout.dots.length; i++) {
                 r = Math.sqrt(Math.pow(layout.dots[i].x - x, 2) + Math.pow(layout.dots[i].y - y, 2));
                 if (r <= 5) {
                     layout.dots[i].highlight = true;
-                    highlights.push(layout.dots[i]);
+                    this.highlights.push(layout.dots[i]);
                 } else {
                     layout.dots[i].highlight = false;
                 }
             }
         } else {
-            for (i = 0; i < highlights.length; i++) {
-                highlights[i].x = x;
-                highlights[i].y = y;
+            for (i = 0; i < this.highlights.length; i++) {
+                this.highlights[i].x = x;
+                this.highlights[i].y = y;
             }
         }
     }
 
-    static down() {
-        if (highlights.length >= 1) {
-            isMoving = true;
+    down() {
+        if (this.highlights.length >= 1) {
+            this.isMoving = true;
         }
     }
 
-    static up(x, y) {
-        if (isMoving) {
-            isMoving = false;
+    up(x, y) {
+        if (this.isMoving) {
+            this.isMoving = false;
         } else {
-            DrawLayouts.getCurrentLayout().push(x, y);
+            this.drawLayouts.getCurrentLayout().push(x, y);
         }
     }
 }
