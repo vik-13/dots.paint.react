@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Draw from '../draw/draw';
+import Draw from './draw/draw';
 
 export default class PaintArea extends React.Component {
     constructor() {

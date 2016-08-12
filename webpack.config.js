@@ -12,7 +12,7 @@ module.exports = {
                 exclude: /(node_modules|dev)/,
                 loader: 'babel-loader',
                 query: {
-                    presets: ['es2015', 'react'],
+                    presets: ['es2015', 'react', 'stage-2'],
                     plugins: ['react-html-attrs']
                 }
             },

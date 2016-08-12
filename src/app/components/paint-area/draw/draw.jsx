@@ -2,7 +2,6 @@ import DrawLayouts from './layouts';
 import Render from './render';
 import Paint from './paint';
 
-
 export default class Draw {
     constructor(canvasId) {
         this.canvasId = canvasId;
