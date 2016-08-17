@@ -1,6 +1,6 @@
 export default class Layout {
-    constructor() {
-        this.name = 'Layout name...';
+    constructor(name) {
+        this.name = name;
         this.visibility = true;
         this.locked = false;
         this.endless = true;

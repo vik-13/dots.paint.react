@@ -1,13 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-export default class Layouts extends React.Component {
+import { addLayout } from './layouts.actions';
+
+class Layouts extends React.Component {
     constructor() {
         super();
     }
 
-// {this.state.layouts.map(layout => {
-//     return <div class="layout">{layout.name}</div>
-// })}
+    chooseLayout(layout) {
+        console.log(layout);
+    }
+
+    addLayout() {
+        this.props.addLayout('bla-bla');
+    }
 
     render() {
         return (
@@ -17,10 +25,20 @@ export default class Layouts extends React.Component {
                 </div>
                 <div class="control-body">
                     <div class="layouts">
-
+                        {this.props.layouts.map((layout, i) => {
+                            return <div class="layout" key={i}>
+                                    <a href="#" onClick={this.chooseLayout.bind(this, layout)}>{layout.name}</a>
+                                </div>
+                        })}
+                        <div class="add-layout"><a href="#" onClick={this.addLayout.bind(this)}>add</a></div>
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+export default connect(
+    (state) => { return {layouts: state.layouts}; },
+    (dispatch) => bindActionCreators({addLayout}, dispatch)
+)(Layouts);
