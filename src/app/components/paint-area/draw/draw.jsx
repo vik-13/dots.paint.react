@@ -8,7 +8,7 @@ export default class Draw {
 
         this.layouts = new Layouts();
         this.paint = new Paint(this.layouts);
-        this.render = new Render(this.canvasId, this.layouts);
+        this.render = new Render(this.canvasId, this.layouts, this.paint);
 
         this.lifeCycle();
     }

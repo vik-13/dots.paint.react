@@ -2,6 +2,10 @@ export default class Paint {
     constructor(Layouts) {
         this.layouts = Layouts;
         this.isMoving = false;
+        this.mousePosition = {
+            x: 0,
+            y: 0
+        };
     }
 
     update(x, y) {
@@ -29,6 +33,9 @@ export default class Paint {
         if (!this.isMoving) {
             this.checkDotsHover(layout, x, y);
         }
+
+        this.mousePosition.x = x;
+        this.mousePosition.y = y;
     }
 
     up(x, y) {
@@ -37,5 +44,9 @@ export default class Paint {
         } else {
             this.layouts.getCurrentLayout().push(x, y);
         }
+    }
+
+    getMousePosition() {
+        return this.mousePosition;
     }
 }

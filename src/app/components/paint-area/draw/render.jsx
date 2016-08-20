@@ -1,5 +1,5 @@
 export default class Render {
-    constructor(canvasId, Layouts) {
+    constructor(canvasId, Layouts, Paint) {
         this.canvas = document.getElementById(canvasId);
         this.context = this.canvas.getContext('2d');
         this.size = {
@@ -8,6 +8,7 @@ export default class Render {
         };
         this.additionalDrawings = [];
         this.layouts = Layouts;
+        this.paint = Paint;
     }
 
     update() {
@@ -36,26 +37,94 @@ export default class Render {
         });
     }
 
+    checkLinesHover(path) {
+        let mousePosition = this.paint.getMousePosition();
+        return this.context.isPointInPath(path, mousePosition.x, mousePosition.y);
+    }
+
+    static calculateRectCoords(from, to) {
+        var a, b, c, m, m2, rect = [],
+            d = 3;
+
+        a = to.y - from.y;
+        b = from.x - to.x;
+        c = (to.x * from.y) - (from.x * to.y);
+
+        if (a == 0) {
+            rect.push({x: from.x, y: from.y - (d / 2)});
+            rect.push({x: from.x, y: from.y + (d / 2)});
+            rect.push({x: to.x, y: to.y + (d / 2)});
+            rect.push({x: to.x, y: to.y - (d / 2)});
+        } else if (b == 0) {
+            rect.push({x: from.x - (d / 2), y: from.y});
+            rect.push({x: from.x + (d / 2), y: from.y});
+            rect.push({x: to.x + (d / 2), y: to.y});
+            rect.push({x: to.x - (d / 2), y: to.y});
+        } else {
+            m = - a / b;
+            m2 = -1 / m;
+
+            rect.push({
+                x: (d / 2) / Math.sqrt(1 + Math.pow(m2, 2)) + from.x,
+                y: (m2 * (d / 2)) / Math.sqrt(1 + Math.pow(m2, 2)) + from.y
+            });
+
+            rect.push({
+                x: - (d / 2) / Math.sqrt(1 + Math.pow(m2, 2)) + from.x,
+                y: - (m2 * (d / 2)) / Math.sqrt(1 + Math.pow(m2, 2)) + from.y
+            });
+
+            rect.push({
+                x: - (d / 2) / Math.sqrt(1 + Math.pow(m2, 2)) + to.x,
+                y: - (m2 * (d / 2)) / Math.sqrt(1 + Math.pow(m2, 2)) + to.y
+            });
+
+            rect.push({
+                x: (d / 2) / Math.sqrt(1 + Math.pow(m2, 2)) + to.x,
+                y: (m2 * (d / 2)) / Math.sqrt(1 + Math.pow(m2, 2)) + to.y
+            });
+        }
+
+        return rect;
+    }
+
+    renderLine(from, to) {
+        let path = new Path2D();
+        let rect = this.calculateRectCoords(from, to);
+
+        rect.forEach((dot, index) => {
+            if (!index) {
+                path.moveTo(dot.x, dot.y);
+            } else {
+                path.lineTo(dot.x, dot.y);
+            }
+        });
+        path.lineTo(rect[0].x, rect[0].y);
+
+        this.context.fillStyle = '#330000';
+
+        path.closePath();
+
+        if (this.checkLinesHover(path, from, to)) {
+
+        }
+        this.context.fill(path);
+    }
+
     renderLayout(layout) {
         this.context.save();
-        this.context.beginPath();
-        layout.dots.forEach((dot, index) => {
-            if (!index) {
-                this.context.moveTo(dot.x, dot.y);
-            } else {
-                this.context.lineTo(dot.x, dot.y);
+        layout.dots.forEach((to, index) => {
+            if (index) {
+                let from = layout.dots[index - 1];
+                this.renderLine(from, to);
             }
-            if (dot.highlight && !layout.locked && this.layouts.getCurrentLayout() == layout) {
-                this.additionalDrawings.push({x: dot.x, y: dot.y});
+            if (to.highlight && !layout.locked && this.layouts.getCurrentLayout() == layout) {
+                this.additionalDrawings.push({x: to.x, y: to.y});
             }
         });
         if (layout.endless && layout.dots.length > 2) {
-            this.context.lineTo(layout.dots[0].x, layout.dots[0].y);
+            this.renderLine(layout.dots[layout.dots.length - 1], layout.dots[0]);
         }
-        this.context.strokeStyle = '#330000';
-        this.context.lineWidth = 3;
-        this.context.lineJoin = 'miter';
-        this.context.stroke();
         this.context.restore();
     }
 
