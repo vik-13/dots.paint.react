@@ -26,7 +26,7 @@ export default class PaintArea extends React.Component {
     render() {
         return (
             <div class="paint-area">
-                <canvas id="paint-area"
+                <canvas id="paint-area" width="320" height="200"
                         onMouseDown={this.handleMouseDown.bind(this)}
                         onMouseMove={this.handleMouseMove.bind(this)}
                         onMouseUp={this.handleMouseUp.bind(this)}/>

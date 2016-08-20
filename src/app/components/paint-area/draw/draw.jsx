@@ -1,4 +1,4 @@
-import DrawLayouts from './layouts';
+import Layouts from './layouts';
 import Render from './render';
 import Paint from './paint';
 
@@ -6,15 +6,15 @@ export default class Draw {
     constructor(canvasId) {
         this.canvasId = canvasId;
 
-        this.drawLayouts = new DrawLayouts();
-        this.paint = new Paint(this.drawLayouts);
-        this.render = new Render(this.canvasId, this.drawLayouts);
+        this.layouts = new Layouts();
+        this.paint = new Paint(this.layouts);
+        this.render = new Render(this.canvasId, this.layouts);
 
         this.lifeCycle();
     }
 
     lifeCycle() {
-        this.render.render();
+        this.render.update();
         window.requestAnimationFrame(this.lifeCycle.bind(this));
     }
 
@@ -25,7 +25,7 @@ export default class Draw {
     handleMouseMove(event) {
         let x = event.clientX - event.currentTarget.offsetLeft;
         let y = event.clientY - event.currentTarget.offsetTop;
-        this.paint.update(x, y);
+        this.paint.move(x, y);
     }
 
     handleMouseUp(event) {

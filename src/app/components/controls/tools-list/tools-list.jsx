@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Tools extends React.Component {
+export default class ToolsList extends React.Component {
     render() {
         return (
             <div class="control tools">

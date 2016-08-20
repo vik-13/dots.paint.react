@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { addLayout } from './layouts.actions';
 
-class Layouts extends React.Component {
+class LayoutsList extends React.Component {
     constructor() {
         super();
     }
@@ -41,4 +41,4 @@ class Layouts extends React.Component {
 export default connect(
     (state) => { return {layouts: state.layouts}; },
     (dispatch) => bindActionCreators({addLayout}, dispatch)
-)(Layouts);
+)(LayoutsList);

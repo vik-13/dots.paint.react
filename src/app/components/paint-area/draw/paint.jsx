@@ -1,37 +1,33 @@
 export default class Paint {
-    constructor(drawLayouts) {
-        this.drawLayouts = drawLayouts;
-        this.highlights = [];
+    constructor(Layouts) {
+        this.layouts = Layouts;
         this.isMoving = false;
     }
 
     update(x, y) {
-        var layout = this.drawLayouts.getCurrentLayout(),
-            i, r;
 
-        if (!this.isMoving) {
-            this.highlights.length = 0;
+    }
 
-            for (i = 0; i < layout.dots.length; i++) {
-                r = Math.sqrt(Math.pow(layout.dots[i].x - x, 2) + Math.pow(layout.dots[i].y - y, 2));
-                if (r <= 5) {
-                    layout.dots[i].highlight = true;
-                    this.highlights.push(layout.dots[i]);
-                } else {
-                    layout.dots[i].highlight = false;
-                }
-            }
-        } else {
-            for (i = 0; i < this.highlights.length; i++) {
-                this.highlights[i].x = x;
-                this.highlights[i].y = y;
-            }
-        }
+    checkDotsHover(layout, x, y) {
+        layout.dots.forEach((dot) => {
+            let r = Math.sqrt(Math.pow(dot.x - x, 2) + Math.pow(dot.y - y, 2));
+            dot.highlight = (r <= 5);
+        });
+    }
+
+    checkLinesHover() {
+
     }
 
     down() {
-        if (this.highlights.length >= 1) {
-            this.isMoving = true;
+
+    }
+
+    move(x, y) {
+        let layout = this.layouts.getCurrentLayout();
+
+        if (!this.isMoving) {
+            this.checkDotsHover(layout, x, y);
         }
     }
 
@@ -39,7 +35,7 @@ export default class Paint {
         if (this.isMoving) {
             this.isMoving = false;
         } else {
-            this.drawLayouts.getCurrentLayout().push(x, y);
+            this.layouts.getCurrentLayout().push(x, y);
         }
     }
 }

@@ -1,18 +1,25 @@
 export default class Render {
-    constructor(canvasId, drawLayouts) {
+    constructor(canvasId, Layouts) {
         this.canvas = document.getElementById(canvasId);
         this.context = this.canvas.getContext('2d');
         this.size = {
             x: 320,
             y: 200
         };
-        this.drawLayouts = drawLayouts;
+        this.additionalDrawings = [];
+        this.layouts = Layouts;
     }
 
-    render() {
+    update() {
         this.clean();
 
+        this.additionalDrawings.length = 0;
+
         this.renderLayouts();
+
+        if (this.additionalDrawings.length) {
+            this.renderAdditionalDrawings();
+        }
     }
 
     clean() {
@@ -21,29 +28,27 @@ export default class Render {
     }
 
     renderLayouts() {
-        var layouts = this.drawLayouts.getLayouts(), i;
-        for (i = 0; i < layouts.length; i++) {
-            if (layouts[i].dots.length >= 1 && layouts[i].visibility) {
-                this.renderLayout(layouts[i]);
+        var layouts = this.layouts.getLayouts();
+        layouts.forEach((layout) => {
+            if (layout.dots.length >= 1 && layout.visibility) {
+                this.renderLayout(layout);
             }
-        }
+        });
     }
 
     renderLayout(layout) {
-        var i;
-
         this.context.save();
         this.context.beginPath();
-        for (i = 0; i < layout.dots.length; i++) {
-            if (i == 0) {
-                this.context.moveTo(layout.dots[i].x, layout.dots[i].y);
+        layout.dots.forEach((dot, index) => {
+            if (!index) {
+                this.context.moveTo(dot.x, dot.y);
             } else {
-                this.context.lineTo(layout.dots[i].x, layout.dots[i].y);
+                this.context.lineTo(dot.x, dot.y);
             }
-            if (layout.dots[i].highlight && !layout.locked && this.drawLayouts.getCurrentLayout() == layout) {
-                this.renderHighlight(layout.dots[i].x, layout.dots[i].y);
+            if (dot.highlight && !layout.locked && this.layouts.getCurrentLayout() == layout) {
+                this.additionalDrawings.push({x: dot.x, y: dot.y});
             }
-        }
+        });
         if (layout.endless && layout.dots.length > 2) {
             this.context.lineTo(layout.dots[0].x, layout.dots[0].y);
         }
@@ -54,11 +59,18 @@ export default class Render {
         this.context.restore();
     }
 
-    renderHighlight(x, y) {
-        this.context.arc(x, y, 5, 0, Math.PI * 2);
-        this.context.strokeStyle = '#330000';
-        this.context.lineWidth = 1;
-        this.context.stroke();
-        this.context.moveTo(x, y);
+    renderAdditionalDrawings() {
+        this.additionalDrawings.forEach((additionalDrawing) => {
+            this.context.save();
+            this.context.beginPath();
+
+            this.context.arc(additionalDrawing.x, additionalDrawing.y, 5, 0, Math.PI * 2);
+
+            this.context.strokeStyle = '#330000';
+            this.context.lineWidth = 1;
+            this.context.lineJoin = 'miter';
+            this.context.stroke();
+            this.context.restore();
+        });
     }
 }

@@ -3,7 +3,7 @@ import Layout from './layout';
 import store from '../../../store/store';
 import addLayout from './actions/addLayout';
 
-export default class DrawLayouts {
+export default class Layouts {
     constructor() {
         this.layouts = store.getState().layouts;
         this.currentLayout = false;
