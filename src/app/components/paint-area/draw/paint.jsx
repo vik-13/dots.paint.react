@@ -1,26 +1,23 @@
+import store from '../../../store/store';
+
 export default class Paint {
     constructor(Layouts) {
         this.layouts = Layouts;
+        this.tool = 'dot';
         this.isMoving = false;
         this.mousePosition = {
             x: 0,
             y: 0
         };
+
+        store.subscribe(this.update.bind(this));
     }
 
-    update(x, y) {
-
-    }
-
-    checkDotsHover(layout, x, y) {
-        layout.dots.forEach((dot) => {
-            let r = Math.sqrt(Math.pow(dot.x - x, 2) + Math.pow(dot.y - y, 2));
-            dot.highlight = (r <= 5);
-        });
-    }
-
-    checkLinesHover() {
-
+    update() {
+        var state = store.getState();
+        if (this.tool != state.tool) {
+            this.tool = state.tool;
+        }
     }
 
     down() {
@@ -28,12 +25,6 @@ export default class Paint {
     }
 
     move(x, y) {
-        let layout = this.layouts.getCurrentLayout();
-
-        if (!this.isMoving) {
-            this.checkDotsHover(layout, x, y);
-        }
-
         this.mousePosition.x = x;
         this.mousePosition.y = y;
     }

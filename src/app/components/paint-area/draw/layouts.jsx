@@ -1,7 +1,7 @@
 import Layout from './layout';
 
 import store from '../../../store/store';
-import addLayout from './actions/addLayout';
+import addLayout from './actions/add-layout.action';
 
 export default class Layouts {
     constructor() {

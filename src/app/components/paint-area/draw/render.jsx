@@ -1,5 +1,5 @@
 export default class Render {
-    constructor(canvasId, Layouts, Paint) {
+    constructor(canvasId, Layouts, Paint, Interact) {
         this.canvas = document.getElementById(canvasId);
         this.context = this.canvas.getContext('2d');
         this.size = {
@@ -9,6 +9,7 @@ export default class Render {
         this.additionalDrawings = [];
         this.layouts = Layouts;
         this.paint = Paint;
+        this.interact = Interact;
     }
 
     update() {
@@ -37,14 +38,9 @@ export default class Render {
         });
     }
 
-    checkLinesHover(path) {
-        let mousePosition = this.paint.getMousePosition();
-        return this.context.isPointInPath(path, mousePosition.x, mousePosition.y);
-    }
-
-    static calculateRectCoords(from, to) {
+    calculateRectCoords(from, to) {
         var a, b, c, m, m2, rect = [],
-            d = 3;
+            d = 1;
 
         a = to.y - from.y;
         b = from.x - to.x;
@@ -105,8 +101,9 @@ export default class Render {
 
         path.closePath();
 
-        if (this.checkLinesHover(path, from, to)) {
-
+        if (this.interact.interact(from, to, this.context, path)) {
+            this.additionalDrawings.push({x: from.x, y: from.y});
+            this.additionalDrawings.push({x: to.x, y: to.y});
         }
         this.context.fill(path);
     }
@@ -114,17 +111,14 @@ export default class Render {
     renderLayout(layout) {
         this.context.save();
         layout.dots.forEach((to, index) => {
-            if (index) {
+            this.interact.interact(false, to);
+            if (!index && this.interact.interact(false, to)) {
+                this.additionalDrawings.push({x: to.x, y: to.y});
+            } else if (index) {
                 let from = layout.dots[index - 1];
                 this.renderLine(from, to);
             }
-            if (to.highlight && !layout.locked && this.layouts.getCurrentLayout() == layout) {
-                this.additionalDrawings.push({x: to.x, y: to.y});
-            }
         });
-        if (layout.endless && layout.dots.length > 2) {
-            this.renderLine(layout.dots[layout.dots.length - 1], layout.dots[0]);
-        }
         this.context.restore();
     }
 

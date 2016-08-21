@@ -1,6 +1,7 @@
 import Layouts from './layouts';
 import Render from './render';
 import Paint from './paint';
+import Interact from './interact';
 
 export default class Draw {
     constructor(canvasId) {
@@ -8,7 +9,8 @@ export default class Draw {
 
         this.layouts = new Layouts();
         this.paint = new Paint(this.layouts);
-        this.render = new Render(this.canvasId, this.layouts, this.paint);
+        this.interact = new Interact(this.paint);
+        this.render = new Render(this.canvasId, this.layouts, this.paint, this.interact);
 
         this.lifeCycle();
     }
