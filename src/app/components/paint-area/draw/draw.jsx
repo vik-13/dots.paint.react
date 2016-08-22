@@ -7,9 +7,14 @@ export default class Draw {
     constructor(canvasId) {
         this.canvasId = canvasId;
 
+        this.mouse = {
+            x: 0,
+            y: 0
+        };
+
         this.layouts = new Layouts();
-        this.paint = new Paint(this.layouts);
-        this.interact = new Interact(this.paint);
+        this.interact = new Interact(this.mouse);
+        this.paint = new Paint(this.layouts, this.interact, this.mouse);
         this.render = new Render(this.canvasId, this.layouts, this.paint, this.interact);
 
         this.lifeCycle();
@@ -20,19 +25,21 @@ export default class Draw {
         window.requestAnimationFrame(this.lifeCycle.bind(this));
     }
 
-    handleMouseDown() {
+    handleMouseDown(event) {
+        this.mouse.x = event.clientX - event.currentTarget.offsetLeft;
+        this.mouse.y = event.clientY - event.currentTarget.offsetTop;
         this.paint.down();
     }
 
     handleMouseMove(event) {
-        let x = event.clientX - event.currentTarget.offsetLeft;
-        let y = event.clientY - event.currentTarget.offsetTop;
-        this.paint.move(x, y);
+        this.mouse.x = event.clientX - event.currentTarget.offsetLeft;
+        this.mouse.y = event.clientY - event.currentTarget.offsetTop;
+        this.paint.move();
     }
 
     handleMouseUp(event) {
-        let x = event.clientX - event.currentTarget.offsetLeft;
-        let y = event.clientY - event.currentTarget.offsetTop;
-        this.paint.up(x, y);
+        this.mouse.x = event.clientX - event.currentTarget.offsetLeft;
+        this.mouse.y = event.clientY - event.currentTarget.offsetTop;
+        this.paint.up();
     }
 }

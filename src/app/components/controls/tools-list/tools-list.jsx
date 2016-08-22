@@ -1,6 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-export default class ToolsList extends React.Component {
+import switchTool from './tools-list.actions';
+
+class ToolsList extends React.Component {
+
+    switchTool(event, to) {
+        event.preventDefault();
+        this.props.switchTool(to);
+    }
+
     render() {
         return (
             <div class="control tools">
@@ -10,19 +20,13 @@ export default class ToolsList extends React.Component {
                 <div class="control-body">
                     <ul>
                         <li>
-                            <a href="#">move</a>
+                            <a href="#" onClick={(event) => this.switchTool(event, 'move')}>move</a>
                         </li>
                         <li>
-                            <a href="#">resize</a>
+                            <a href="#" onClick={(event) => this.switchTool(event, 'line')}>line</a>
                         </li>
                         <li>
-                            <a href="#">dot</a>
-                        </li>
-                        <li>
-                            <a href="#">line</a>
-                        </li>
-                        <li>
-                            <a href="#">split</a>
+                            <a href="#" onClick={(event) => this.switchTool(event, 'split')}>split</a>
                         </li>
                     </ul>
                 </div>
@@ -30,3 +34,8 @@ export default class ToolsList extends React.Component {
         );
     }
 }
+
+export default connect(
+    (state) => { return {tool: state.tool}; },
+    (dispatch) => bindActionCreators({switchTool}, dispatch)
+)(ToolsList);

@@ -6,7 +6,6 @@ export default class Render {
             x: 320,
             y: 200
         };
-        this.additionalDrawings = [];
         this.layouts = Layouts;
         this.paint = Paint;
         this.interact = Interact;
@@ -15,13 +14,11 @@ export default class Render {
     update() {
         this.clean();
 
-        this.additionalDrawings.length = 0;
+        this.interact.clean();
 
         this.renderLayouts();
 
-        if (this.additionalDrawings.length) {
-            this.renderAdditionalDrawings();
-        }
+        this.drawActives(this.interact.getActives());
     }
 
     clean() {
@@ -40,7 +37,7 @@ export default class Render {
 
     calculateRectCoords(from, to) {
         var a, b, c, m, m2, rect = [],
-            d = 1;
+            d = 3;
 
         a = to.y - from.y;
         b = from.x - to.x;
@@ -84,7 +81,7 @@ export default class Render {
         return rect;
     }
 
-    renderLine(from, to) {
+    renderLine(from, to, index) {
         let path = new Path2D();
         let rect = this.calculateRectCoords(from, to);
 
@@ -101,39 +98,44 @@ export default class Render {
 
         path.closePath();
 
-        if (this.interact.interact(from, to, this.context, path)) {
-            this.additionalDrawings.push({x: from.x, y: from.y});
-            this.additionalDrawings.push({x: to.x, y: to.y});
-        }
+        this.interact.interact(from, to, index, this.context, path);
+
         this.context.fill(path);
     }
 
     renderLayout(layout) {
         this.context.save();
-        layout.dots.forEach((to, index) => {
-            this.interact.interact(false, to);
-            if (!index && this.interact.interact(false, to)) {
-                this.additionalDrawings.push({x: to.x, y: to.y});
-            } else if (index) {
-                let from = layout.dots[index - 1];
-                this.renderLine(from, to);
-            }
-        });
+        if (layout.dots.length == 1) {
+            this.drawDotCircle(layout.dots[0]);
+        } else {
+            layout.dots.forEach((to, index) => {
+                if (!index) {
+                    this.interact.interact(false, to, index);
+                } else {
+                    let from = layout.dots[index - 1];
+                    this.renderLine(from, to, index);
+                }
+            });
+        }
         this.context.restore();
     }
 
-    renderAdditionalDrawings() {
-        this.additionalDrawings.forEach((additionalDrawing) => {
-            this.context.save();
-            this.context.beginPath();
-
-            this.context.arc(additionalDrawing.x, additionalDrawing.y, 5, 0, Math.PI * 2);
-
-            this.context.strokeStyle = '#330000';
-            this.context.lineWidth = 1;
-            this.context.lineJoin = 'miter';
-            this.context.stroke();
-            this.context.restore();
+    drawActives(actives) {
+        actives.forEach((active) => {
+            this.drawDotCircle(active.dot);
         });
+    }
+
+    drawDotCircle(position) {
+        this.context.save();
+        this.context.beginPath();
+
+        this.context.arc(position.x, position.y, 5, 0, Math.PI * 2);
+
+        this.context.strokeStyle = '#330000';
+        this.context.lineWidth = 1;
+        this.context.lineJoin = 'miter';
+        this.context.stroke();
+        this.context.restore();
     }
 }

@@ -12,4 +12,8 @@ export default class Layout {
             y: y
         });
     }
+
+    pushAfterIndex(index, x, y) {
+        this.dots.splice(index + 1, 0, {x: x, y: y});
+    }
 }

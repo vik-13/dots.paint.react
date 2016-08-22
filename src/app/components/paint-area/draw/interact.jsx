@@ -1,21 +1,31 @@
 export default class Interact {
-    constructor(Paint) {
-        this.type = 'none'; // 'dot', 'line'
-        this.paint = Paint;
+    constructor(Mouse) {
+        this.actives = [];
+        this.mouse = Mouse;
     }
 
-    interact(from, to, context, path) {
-        let mousePosition = this.paint.getMousePosition();
-        let type = 'none';
-        if (Math.sqrt(Math.pow(to.x - mousePosition.x, 2) + Math.pow(to.y - mousePosition.y, 2)) <= 5) {
-            type = 'dot';
+    clean() {
+        this.actives.length = 0;
+    }
+
+    interact(from, to, index, context, path) {
+        let isFound = false;
+        if (Math.sqrt(Math.pow(to.x - this.mouse.x, 2) + Math.pow(to.y - this.mouse.y, 2)) <= 5) {
+            isFound = true;
+            this.actives.push({index: index, dot: to});
         }
 
-        if (type == 'none' && from) {
-            if (context.isPointInPath(path, mousePosition.x, mousePosition.y)) {
-                type = 'line';
+        if (!isFound && from) {
+            if (context.isPointInPath(path, this.mouse.x, this.mouse.y)) {
+                isFound = true;
+                this.actives.push({index: index - 1, dot: from});
+                this.actives.push({index: index, dot: to});
             }
         }
-        return (type != 'none');
+        return isFound;
+    }
+
+    getActives() {
+        return this.actives;
     }
 }
