@@ -10,7 +10,7 @@ export default class Interact {
 
     interact(from, to, index, context, path) {
         let isFound = false;
-        if (Math.sqrt(Math.pow(to.x - this.mouse.x, 2) + Math.pow(to.y - this.mouse.y, 2)) <= 5) {
+        if (Math.sqrt(Math.pow(to.x - this.mouse.x, 2) + Math.pow(to.y - this.mouse.y, 2)) <= 8) {
             isFound = true;
             this.actives.push({index: index, dot: to});
         }

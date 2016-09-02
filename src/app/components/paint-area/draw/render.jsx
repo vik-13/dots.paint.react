@@ -37,7 +37,7 @@ export default class Render {
 
     calculateRectCoords(from, to) {
         var a, b, c, m, m2, rect = [],
-            d = 3;
+            d = 5;
 
         a = to.y - from.y;
         b = from.x - to.x;
@@ -130,7 +130,7 @@ export default class Render {
         this.context.save();
         this.context.beginPath();
 
-        this.context.arc(position.x, position.y, 5, 0, Math.PI * 2);
+        this.context.arc(position.x, position.y, 8, 0, Math.PI * 2);
 
         this.context.strokeStyle = '#330000';
         this.context.lineWidth = 1;

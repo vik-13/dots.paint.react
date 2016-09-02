@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run watch & npm run serve",
     "watch": "webpack --watch",
-    "serve": "webpack-dev-server --port 8809 --content-base dev/"
+    "serve": "webpack-dev-server --port 8800 --content-base dev/"
   },
   "author": "Viktor Uhryn",
   "license": "",
