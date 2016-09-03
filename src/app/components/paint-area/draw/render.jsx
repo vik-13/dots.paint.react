@@ -29,15 +29,15 @@ export default class Render {
     renderLayouts() {
         var layouts = this.layouts.getLayouts();
         layouts.forEach((layout) => {
-            if (layout.dots.length >= 1 && layout.visibility) {
-                this.renderLayout(layout);
+            if (layout.dots && layout.dots.length >= 1 && layout.visibility) {
+                this.renderLayout(layout, layout == this.layouts.getCurrentLayout());
             }
         });
     }
 
     calculateRectCoords(from, to) {
         var a, b, c, m, m2, rect = [],
-            d = 5;
+            d = 2;
 
         a = to.y - from.y;
         b = from.x - to.x;
@@ -81,7 +81,7 @@ export default class Render {
         return rect;
     }
 
-    renderLine(from, to, index) {
+    renderLine(from, to, index, interaction) {
         let path = new Path2D();
         let rect = this.calculateRectCoords(from, to);
 
@@ -98,24 +98,31 @@ export default class Render {
 
         path.closePath();
 
-        this.interact.interact(from, to, index, this.context, path);
+        if (interaction) {
+            if (this.paint.tool == 'split') {
+                this.interact.line(from, to, index, this.context, path);
+            } else if (this.paint.tool == 'move') {
+                this.interact.dot(to, index);
+            }
+        }
 
         this.context.fill(path);
     }
 
-    renderLayout(layout) {
+    renderLayout(layout, interaction) {
         this.context.save();
         if (layout.dots.length == 1) {
             this.drawDotCircle(layout.dots[0]);
         } else {
             layout.dots.forEach((to, index) => {
-                if (!index) {
-                    this.interact.interact(false, to, index);
-                } else {
+                if (index) {
                     let from = layout.dots[index - 1];
-                    this.renderLine(from, to, index);
+                    this.renderLine(from, to, index, interaction);
                 }
             });
+            if (layout.endless) {
+                this.renderLine(layout.dots[layout.dots.length - 1], layout.dots[0], layout.dots.length, interaction);
+            }
         }
         this.context.restore();
     }

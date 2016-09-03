@@ -1,27 +1,43 @@
-import Layout from './layout';
-
 import store from '../../../store/store';
-import addLayout from './actions/add-layout.action';
+
+import storeDotsAction from './actions/store-dots.action';
 
 export default class Layouts {
     constructor() {
         this.layouts = store.getState().layouts;
-        this.currentLayout = false;
+        this.currentLayout = store.getState().layout;
 
         store.subscribe(() => {
-            this.layouts = store.getState().layouts;
+            var state = store.getState();
+            this.currentLayout = state.layout;
+            this.layouts = state.layouts;
         });
-
-        this.add();
     }
 
-    add() {
-        let layout = new Layout();
-        //this.layouts.push(layout);
+    push(x, y) {
+        if (!this.getCurrentLayout().dots) {
+            this.getCurrentLayout().dots = [];
+        }
+        this.getCurrentLayout().dots.push({
+            x: x,
+            y: y
+        });
+        this.store();
+    }
 
-        addLayout(store, layout);
+    pushAfterIndex(index, x, y) {
+        this.getCurrentLayout().dots.splice(index + 1, 0, {x: x, y: y});
+        this.store();
+    }
 
-        this.currentLayout = layout;
+    move(x, y, index) {
+        this.getCurrentLayout().dots[index].x = x;
+        this.getCurrentLayout().dots[index].y = y;
+        this.store();
+    }
+
+    store() {
+        storeDotsAction(store, this.getCurrentLayout().dots);
     }
 
     remove() {
@@ -33,11 +49,7 @@ export default class Layouts {
     }
 
     getCurrentLayout() {
-        return this.currentLayout;
-    }
-
-    setCurrentLayout(layout) {
-        this.currentLayout = layout;
+        return this.layouts[this.currentLayout];
     }
 
 }

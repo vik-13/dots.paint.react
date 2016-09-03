@@ -12,6 +12,10 @@
     width: 100px;
     top: 30px;
     left: 20px;
+
+    .active a{
+      color: darkorange;
+    }
   }
 
   &.output {
@@ -25,6 +29,10 @@
     width: 100px;
     top: 30px;
     right: 20px;
+
+    .active a{
+      color: darkorange;
+    }
   }
 
   .control-header {

@@ -23,14 +23,13 @@ export default class Paint {
     }
 
     split(from) {
-        this.layouts.getCurrentLayout().pushAfterIndex(from.index, this.mouse.x, this.mouse.y);
+        this.layouts.pushAfterIndex(from.index, this.mouse.x, this.mouse.y);
     }
 
     down() {
         let actives = this.interact.getActives();
 
         if (this.tool == 'move') {
-            console.log(actives);
             if (actives.length == 1) {
                 this.movement.isActive = true;
                 this.movement.index = actives[0].index;
@@ -39,10 +38,8 @@ export default class Paint {
     }
 
     move() {
-        var layout = this.layouts.getCurrentLayout();
         if (this.movement.isActive) {
-            layout.dots[this.movement.index].x = this.mouse.x;
-            layout.dots[this.movement.index].y = this.mouse.y;
+            this.layouts.move(this.mouse.x, this.mouse.y, this.movement.index);
         }
     }
 
@@ -53,7 +50,7 @@ export default class Paint {
             this.movement.isActive = false;
             this.movement.index = -1;
         } else if (this.tool == 'line') {
-            this.layouts.getCurrentLayout().push(this.mouse.x, this.mouse.y);
+            this.layouts.push(this.mouse.x, this.mouse.y);
         } else if (this.tool == 'split') {
             if (actives.length == 2) {
                 this.split(actives[0]);

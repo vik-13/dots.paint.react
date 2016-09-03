@@ -21,4 +21,15 @@ export default class Api {
     static getCurrentUser() {
         return firebase.auth().currentUser;
     }
+
+    static storeData(data) {
+        console.log('storing data...');
+        firebase.database().ref(this.getCurrentUser().uid + '/layouts').set([]);
+        firebase.database().ref(this.getCurrentUser().uid + '/layouts').set(data);
+    }
+
+    static getData() {
+        return firebase.database()
+            .ref(this.getCurrentUser().uid + '/layouts').once('value');
+    }
 }
