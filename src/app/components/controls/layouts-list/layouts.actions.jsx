@@ -5,6 +5,13 @@ export function addLayout(layout) {
     };
 }
 
+export function removeLayout(id) {
+    return {
+        type: 'REMOVE_LAYOUT',
+        payload: id
+    };
+}
+
 export function selectLayout(index) {
     return {
         type: 'SELECT_LAYOUT',

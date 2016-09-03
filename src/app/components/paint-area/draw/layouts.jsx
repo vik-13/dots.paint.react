@@ -31,17 +31,20 @@ export default class Layouts {
     }
 
     move(x, y, index) {
+        if (index == this.getCurrentLayout().dots.length) {
+            index = 0;
+        }
         this.getCurrentLayout().dots[index].x = x;
         this.getCurrentLayout().dots[index].y = y;
         this.store();
     }
 
-    store() {
-        storeDotsAction(store, this.getCurrentLayout().dots);
+    removeDot(index) {
+        this.getCurrentLayout().dots.splice(index, 1);
     }
 
-    remove() {
-
+    store() {
+        storeDotsAction(store, this.getCurrentLayout().dots);
     }
 
     getLayouts() {

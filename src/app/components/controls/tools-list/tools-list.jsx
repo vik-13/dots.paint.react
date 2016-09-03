@@ -28,6 +28,9 @@ class ToolsList extends React.Component {
                         <li class={this.props.tool == 'split' ? 'active' : ''}>
                             <a href="#" onClick={(event) => this.switchTool(event, 'split')}>split</a>
                         </li>
+                        <li class={this.props.tool == 'remove' ? 'active' : ''}>
+                            <a href="#" onClick={(event) => this.switchTool(event, 'remove')}>remove</a>
+                        </li>
                     </ul>
                 </div>
             </div>

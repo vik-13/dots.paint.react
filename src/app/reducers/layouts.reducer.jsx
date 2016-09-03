@@ -2,6 +2,8 @@ const layout = (state, action) => {
     switch (action.type) {
         case 'ADD_LAYOUT':
             return action.payload;
+        case 'REMOVE_LAYOUT':
+            return state.id != action.payload;
         case 'STORE_DOTS':
             if (state.id != action.id) {
                 return state;
@@ -41,6 +43,8 @@ export default function (state = [], action) {
             return [...action.payload];
         case 'ADD_LAYOUT':
             return [...state, layout(undefined, action)];
+        case 'REMOVE_LAYOUT':
+            return state.filter(t => layout(t, action));
         case 'STORE_DOTS':
             return state.map(t => layout(t, action));
         case 'TOGGLE_ENDLESS_LAYOUT':

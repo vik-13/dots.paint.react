@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 
+var currentUserUid;
+
 export default class Api {
     static init() {
         firebase.initializeApp({
@@ -19,17 +21,28 @@ export default class Api {
     }
 
     static getCurrentUser() {
-        return firebase.auth().currentUser;
+        let authStateChanged;
+
+        return new Promise((resolve, reject) => {
+            authStateChanged = firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    resolve(user);
+                    currentUserUid = user.uid;
+                } else {
+                    reject();
+                }
+                authStateChanged();
+            });
+        });
     }
 
     static storeData(data) {
-        console.log('storing data...');
-        firebase.database().ref(this.getCurrentUser().uid + '/layouts').set([]);
-        firebase.database().ref(this.getCurrentUser().uid + '/layouts').set(data);
+        firebase.database().ref(currentUserUid + '/layouts').set([]);
+        firebase.database().ref(currentUserUid + '/layouts').set(data);
     }
 
     static getData() {
         return firebase.database()
-            .ref(this.getCurrentUser().uid + '/layouts').once('value');
+            .ref(currentUserUid + '/layouts').once('value');
     }
 }

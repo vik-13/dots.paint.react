@@ -29,10 +29,14 @@ export default class Paint {
     down() {
         let actives = this.interact.getActives();
 
-        if (this.tool == 'move') {
-            if (actives.length == 1) {
-                this.movement.isActive = true;
-                this.movement.index = actives[0].index;
+        if (actives.length == 1) {
+            switch (this.tool) {
+                case 'move':
+                    this.movement.isActive = true;
+                    this.movement.index = actives[0].index;
+                    return;
+                default:
+                    return;
             }
         }
     }
@@ -46,15 +50,24 @@ export default class Paint {
     up() {
         let actives = this.interact.getActives();
 
-        if (this.tool == 'move') {
-            this.movement.isActive = false;
-            this.movement.index = -1;
-        } else if (this.tool == 'line') {
-            this.layouts.push(this.mouse.x, this.mouse.y);
-        } else if (this.tool == 'split') {
-            if (actives.length == 2) {
-                this.split(actives[0]);
-            }
+        switch (this.tool) {
+            case 'move':
+                this.movement.isActive = false;
+                this.movement.index = -1;
+                return;
+            case 'line':
+                this.layouts.push(this.mouse.x, this.mouse.y);
+                return;
+            case 'split':
+                if (actives.length == 2) {
+                    this.split(actives[0]);
+                }
+                return;
+            case 'remove':
+                this.layouts.removeDot(actives[0].index);
+                return;
+            default:
+                return;
         }
     }
 }

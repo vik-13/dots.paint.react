@@ -101,7 +101,7 @@ export default class Render {
         if (interaction) {
             if (this.paint.tool == 'split') {
                 this.interact.line(from, to, index, this.context, path);
-            } else if (this.paint.tool == 'move') {
+            } else if (this.paint.tool == 'move' || this.paint.tool == 'remove') {
                 this.interact.dot(to, index);
             }
         }

@@ -9,10 +9,7 @@ import Api from './components/api/api';
 import store from './store/store';
 
 const authCheck = (nextState, replace, callback) => {
-    if (!Api.getCurrentUser()) {
-        replace('/sign-in');
-        callback();
-    } else {
+    Api.getCurrentUser().then((user) => {
         Api.getData().then((snapshot) => {
             var layouts = snapshot.val();
             if (layouts) {
@@ -21,7 +18,10 @@ const authCheck = (nextState, replace, callback) => {
             }
             callback();
         });
-    }
+    }, () => {
+        replace('/sign-in');
+        callback();
+    });
 };
 
 const AppRoutes = {
