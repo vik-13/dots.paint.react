@@ -1,8 +1,7 @@
 import React from 'react';
-
 import Draw from './draw/draw';
 
-export default class PaintArea extends React.Component {
+class PaintArea extends React.Component {
     constructor() {
         super();
     }
@@ -22,3 +21,5 @@ export default class PaintArea extends React.Component {
         );
     }
 }
+
+export default PaintArea;

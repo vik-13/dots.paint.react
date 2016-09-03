@@ -11,6 +11,16 @@
   &.tools {
     width: 100px;
     top: 30px;
+    right: 20px;
+
+    .active a{
+      color: darkorange;
+    }
+  }
+
+  &.paintings {
+    width: 100px;
+    top: 30px;
     left: 20px;
 
     .active a{
@@ -27,12 +37,16 @@
 
   &.layouts {
     width: 100px;
-    top: 30px;
+    top: 150px;
     right: 20px;
 
     .active a{
       color: darkorange;
     }
+  }
+
+  &.locked {
+    display: none;
   }
 
   .control-header {

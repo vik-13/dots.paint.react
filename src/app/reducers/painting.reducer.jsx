@@ -1,4 +1,4 @@
-const paintingReducer = (state = [], action) => {
+const paintingReducer = (state = false, action) => {
     switch (action.type) {
         case 'SELECT_PAINTING':
             return action.payload;

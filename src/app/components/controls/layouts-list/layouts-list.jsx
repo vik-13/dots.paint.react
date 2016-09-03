@@ -35,7 +35,7 @@ class LayoutsList extends React.Component {
 
     render() {
         return (
-            <div class="control layouts">
+            <div class={!this.props.file ? 'control layouts locked' : 'control layouts'}>
                 <div class="control-header">
                     <span>Layouts</span>
                 </div>
@@ -58,6 +58,6 @@ class LayoutsList extends React.Component {
 }
 
 export default connect(
-    (state) => { return {layouts: state.layouts, layout: state.layout}; },
+    (state) => { return {layouts: state.layouts, layout: state.layout, file: state.file}; },
     (dispatch) => bindActionCreators({addLayout, removeLayout, selectLayout, toggleEndless, toggleVisibility, toggleLock}, dispatch)
 )(LayoutsList);

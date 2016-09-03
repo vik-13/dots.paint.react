@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-class PaintingsList extends React.component {
+import { addPainting, removePainting } from './paintings.actions';
+
+class PaintingsList extends React.Component {
     constructor() {
         super();
     }
+
 
     choosePainting(event) {
         event.preventDefault();
@@ -17,12 +20,12 @@ class PaintingsList extends React.component {
 
     render() {
         return (
-            <div class="control painting">
+            <div class="control paintings">
                 <div class="control-header">
                     <span>Paintings</span>
                 </div>
                 <div class="control-body">
-                    <ul class="Paintings">
+                    <ul class="paintings">
                         {this.props.paintings.map((painting, i) => {
                             return  <li class={this.props.file == i ? 'active' : ''} key={i}>
                                         <a href="#" onClick={(event) => this.choosePainting(event, i)}>{painting.name}</a>
@@ -38,5 +41,5 @@ class PaintingsList extends React.component {
 
 export default connect(
     (state) => { return {paintings: state.paintings, painting: state.painting}; },
-    (dispatch) => bindActionCreators({}, dispatch)
-)(FilesList);
+    (dispatch) => bindActionCreators({addPainting, removePainting}, dispatch)
+)(PaintingsList);
