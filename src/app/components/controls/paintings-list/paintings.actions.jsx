@@ -11,3 +11,10 @@ export const removePainting = (id) => {
         payload: id
     };
 };
+
+export const selectPainting = (index) => {
+    return {
+        type: 'SELECT_PAINTING',
+        payload: index
+    };
+};
