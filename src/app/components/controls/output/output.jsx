@@ -45,7 +45,7 @@ class Output extends React.Component {
                             return (
                                 <div className="layout-block" key={i}>
                                     <div className="layout-body">
-                                        {layout.name} (endless: {layout.endless ? 'true' : 'false'}): [
+                                        {layout.name}: [
                                         {layout.dots.map((dot) => {
                                             return '{x: ' + dot.x + ', y: ' + dot.y + '}';
                                         })}

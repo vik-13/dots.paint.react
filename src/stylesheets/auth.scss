@@ -1,0 +1,25 @@
+.auth-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: floralwhite;
+
+  .auth-block {
+    width: 400px;
+
+    .auth-content {
+      padding: 0 24px;
+
+      .auth-bottom {
+        height: 64px;
+        display: flex;
+        align-items: center;
+
+        .auth-aligner {
+          flex: 1;
+        }
+      }
+    }
+  }
+}

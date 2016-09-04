@@ -33,7 +33,7 @@ export default class Render {
 
     calculateRectCoords(from, to) {
         var a, b, c, m, m2, rect = [],
-            d = 2;
+            d = 1;
 
         a = to.y - from.y;
         b = from.x - to.x;
@@ -90,7 +90,7 @@ export default class Render {
         });
         path.lineTo(rect[0].x, rect[0].y);
 
-        this.context.fillStyle = '#330000';
+        this.context.fillStyle = interaction ? '#005500' : '#330000';
 
         path.closePath();
 

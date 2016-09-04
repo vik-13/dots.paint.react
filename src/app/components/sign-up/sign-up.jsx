@@ -1,6 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { hashHistory } from 'react-router';
 import Api from '../api/api';
+
+import AppBar from 'material-ui/AppBar';
+import Paper from 'material-ui/Paper';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 
 export default class SignUp extends React.Component {
     constructor() {
@@ -10,8 +15,19 @@ export default class SignUp extends React.Component {
             password: ''
         };
     }
+
+    signIn() {
+        hashHistory.push('/sign-in');
+    }
+
     signUp() {
-        Api.signUp(this.state.email, this.state.password);
+        Api.signUp(this.state.email, this.state.password)
+            .then((data) => {
+                hashHistory.push('/');
+            })
+            .catch((error) => {
+                console.log('error');
+            });
     }
 
     handleChangeEmail(event) {
@@ -24,23 +40,28 @@ export default class SignUp extends React.Component {
 
     render() {
         return (
-            <div class="auth-container">
-                <h2>Sign-up form</h2>
-                <div class="field-block">
-                    <input type="text"
-                           value={this.state.email}
-                           onChange={this.handleChangeEmail.bind(this)} />
-                </div>
-                <div class="field-block">
-                    <input type="password"
-                           value={this.state.password}
-                           onChange={this.handleChangePassword.bind(this)} />
-                </div>
-                <div class="field-block">
-                    <Link to="/sign-in">Sign-in</Link>
-                    <button
-                        onClick={this.signUp.bind(this)}>Sign-up</button>
-                </div>
+            <div className="auth-wrapper">
+                <Paper className="auth-block">
+                    <AppBar title="Sign-Up" showMenuIconButton={false}/>
+                    <div className="auth-content">
+                        <TextField
+                            value={this.state.email}
+                            onChange={(event) => this.handleChangeEmail(event)}
+                            floatingLabelText="Email"
+                        /><br />
+                        <TextField
+                            type="password"
+                            value={this.state.password}
+                            onChange={(event) => this.handleChangePassword(event)}
+                            floatingLabelText="Password"
+                        /><br />
+                        <div className="auth-bottom">
+                            <FlatButton label="Sign-In" onClick={() => this.signIn()}/>
+                            <div className="auth-aligner" />
+                            <FlatButton label="Sign-Up" primary={true} onClick={() => this.signUp()}/>
+                        </div>
+                    </div>
+                </Paper>
             </div>
         );
     }

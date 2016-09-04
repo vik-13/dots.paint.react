@@ -25,8 +25,9 @@ class LayoutsList extends React.Component {
         super();
     }
 
-    chooseLayout(index) {
+    chooseLayout(event, index) {
         this.props.selectLayout(index);
+        event.preventDefault();
     }
 
     addLayout() {
@@ -36,11 +37,11 @@ class LayoutsList extends React.Component {
     }
 
     removeLayout(event, id) {
-        event.preventDefault();
         this.props.removeLayout(id);
         if (this.props.layouts.length >= 1) {
             this.props.selectLayout(0);
         }
+        event.preventDefault();
     }
 
     openDialog(event) {
@@ -78,7 +79,7 @@ class LayoutsList extends React.Component {
                     {this.props.layouts.map((layout, i) => {
                         return(
                             <div className={this.props.layout == i ? 'layout active' : 'layout'} key={i}>
-                                <a className="layout-name" href="#" onClick={() => this.chooseLayout(i)}>{layout.name}</a>
+                                <a className="layout-name" href="#" onClick={(event) => this.chooseLayout(event, i)}>{layout.name}</a>
                                 <div><Checkbox checked={layout.visibility} onCheck={() => this.props.toggleVisibility(layout.id)}/></div>
                                 <a href="#" onClick={(event) => this.removeLayout(event, layout.id)}><CloseIcon /></a>
                             </div>
