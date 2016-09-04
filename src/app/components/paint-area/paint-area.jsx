@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Paper from 'material-ui/Paper';
+
 import Draw from './draw/draw';
 
 class PaintArea extends React.Component {
@@ -14,14 +16,19 @@ class PaintArea extends React.Component {
     }
 
     render() {
+        const paperStyle = {
+            marginTop: '-100px'
+        }
         return (
             <div class={this.props.painting === false ? 'paint-area locked' : 'paint-area'}>
-                <canvas id="paint-area"
+                <Paper zDepth={1} style={paperStyle}>
+                    <canvas id="paint-area"
                         width={this.props.painting ? this.props.paintings[this.props.painting].width : 100}
                         height={this.props.painting ? this.props.paintings[this.props.painting].height : 100}
                         onMouseDown={(event) => this.draw.handleMouseDown(event)}
                         onMouseMove={(event) => this.draw.handleMouseMove(event)}
                         onMouseUp={(event) => this.draw.handleMouseUp(event)}/>
+                </Paper>
             </div>
         );
     }

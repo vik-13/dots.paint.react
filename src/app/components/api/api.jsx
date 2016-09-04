@@ -20,6 +20,10 @@ export default class Api {
         return firebase.auth().signInWithEmailAndPassword(email, password);
     }
 
+    static signOut() {
+        return firebase.auth().signOut();
+    }
+
     static getCurrentUser() {
         let authStateChanged;
 

@@ -1,4 +1,4 @@
-@import 'normalize';
+//@import 'normalize';
 
 @import 'variables';
 @import 'app';
@@ -7,10 +7,13 @@
 
 html, body {
   height: 100%;
+  margin: 0;
+  paddin: 0;
 }
 
 body {
   color: $font-color;
+  font-family: 'Roboto', sans-serif;
 }
 
 ul {

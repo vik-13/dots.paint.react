@@ -2,21 +2,49 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
 class Output extends React.Component {
+    constructor() {
+        super();
+        this.state = {open: false};
+    }
+
+    openDialog() {
+        this.setState({open: true});
+    }
+
+    closeDialog() {
+        this.setState({open: false});
+    }
+
     render() {
+        const actions = [
+            <FlatButton
+                label="Ok"
+                primary={true}
+                keyboardFocused={true}
+                onTouchTap={() => this.closeDialog()}
+            />
+        ];
         return (
-            <div class="control output">
-                <div class="control-header">
-                    <span>Output</span>
-                </div>
-                <div class="control-body">
+            <div className="control output">
+                <FlatButton label="Show Data" onClick={() => this.openDialog()}/>
+                <Dialog
+                    title="Output Data"
+                    actions={actions}
+                    modal={false}
+                    open={this.state.open}
+                    onRequestClose={() => this.closeDialog()}
+                >
                     {this.props.layouts.map((layout, i) => {
-                        if (!layout.visibility) {
-                            return;
+                        if (!layout.visibility || !layout.dots) {
+                            return '';
                         } else {
                             return (
-                                <div class="layout-block" key={i}>
-                                    <div class="layout-body">
+                                <div className="layout-block" key={i}>
+                                    <div className="layout-body">
                                         {layout.name} (endless: {layout.endless ? 'true' : 'false'}): [
                                         {layout.dots.map((dot) => {
                                             return '{x: ' + dot.x + ', y: ' + dot.y + '}';
@@ -27,7 +55,7 @@ class Output extends React.Component {
                             );
                         }
                     })}
-                </div>
+                </Dialog>
             </div>
         );
     }

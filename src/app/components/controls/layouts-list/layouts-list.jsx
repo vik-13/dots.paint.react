@@ -5,6 +5,10 @@ import { bindActionCreators } from 'redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
+import Checkbox from 'material-ui/Checkbox';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import SubHeader from 'material-ui/Subheader';
 
 import { addLayout, removeLayout, selectLayout, toggleEndless, toggleVisibility, toggleLock } from './layouts.actions';
 import Layout from '../../paint-area/draw/layout';
@@ -21,8 +25,7 @@ class LayoutsList extends React.Component {
         super();
     }
 
-    chooseLayout(event, index) {
-        event.preventDefault();
+    chooseLayout(index) {
         this.props.selectLayout(index);
     }
 
@@ -35,6 +38,9 @@ class LayoutsList extends React.Component {
     removeLayout(event, id) {
         event.preventDefault();
         this.props.removeLayout(id);
+        if (this.props.layouts.length >= 1) {
+            this.props.selectLayout(0);
+        }
     }
 
     openDialog(event) {
@@ -66,22 +72,21 @@ class LayoutsList extends React.Component {
             />,
         ];
         return (
-            <div class={this.props.painting === false ? 'control layouts locked' : 'control layouts'}>
-                <div class="control-header">
-                    <span>Layouts</span>
-                </div>
-                <div class="control-body">
-                    <ul class="layouts">
-                        {this.props.layouts.map((layout, i) => {
-                            return <li class={this.props.layout == i ? 'active' : ''} key={i}>
-                                    <a href="#" onClick={(event) => this.chooseLayout(event, i)}>{layout.name}</a>
-                                    <span><input type="checkbox" checked={layout.endless} onChange={this.props.toggleEndless.bind(this, layout.id)}/></span>
-                                    <span><input type="checkbox" checked={layout.visibility} onChange={this.props.toggleVisibility.bind(this, layout.id)}/></span>
-                                    <a href="#" onClick={(event) => this.removeLayout(event, layout.id)}>x</a>
-                                </li>
-                        })}
-                        <div class="add-layout"><a href="#" onClick={(event) => this.openDialog(event)}>add</a></div>
-                    </ul>
+            <Paper className={this.props.painting === false ? 'control layouts locked' : 'control layouts'}>
+                <div>
+                    <SubHeader>Layouts</SubHeader>
+                    {this.props.layouts.map((layout, i) => {
+                        return(
+                            <div className={this.props.layout == i ? 'layout active' : 'layout'} key={i}>
+                                <a className="layout-name" href="#" onClick={() => this.chooseLayout(i)}>{layout.name}</a>
+                                <div><Checkbox checked={layout.visibility} onCheck={() => this.props.toggleVisibility(layout.id)}/></div>
+                                <a href="#" onClick={(event) => this.removeLayout(event, layout.id)}><CloseIcon /></a>
+                            </div>
+                        );
+                    })}
+                    <div class="layout add-layout">
+                        <a href="#" onClick={(event) => this.openDialog(event)}>Add layout</a>
+                    </div>
                 </div>
                 <Dialog
                     title="Create a new layout"
@@ -97,7 +102,7 @@ class LayoutsList extends React.Component {
                         floatingLabelText="Name"
                     /><br />
                 </Dialog>
-            </div>
+            </Paper>
         );
     }
 }

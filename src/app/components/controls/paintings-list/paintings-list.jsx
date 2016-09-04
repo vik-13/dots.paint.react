@@ -1,12 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { hashHistory } from 'react-router';
 
 import Api from '../../api/api';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Drawer from 'material-ui/Drawer';
+import { List, ListItem } from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import SubHeader from 'material-ui/Subheader';
+import ColorLens from 'material-ui/svg-icons/image/color-lens';
+
 
 import { addPainting, removePainting, selectPainting } from './paintings.actions';
 import { addLayouts, removeLayouts, addLayout, selectLayout } from '../layouts-list/layouts.actions';
@@ -34,6 +41,7 @@ class PaintingsList extends React.Component {
             }
             this.props.selectPainting(index);
         });
+        this.props.toggle();
         event.preventDefault();
     }
 
@@ -47,10 +55,9 @@ class PaintingsList extends React.Component {
         this.closeDialog();
     }
 
-    openDialog(event) {
+    openDialog() {
         this.setState({open: true});
-
-        event.preventDefault();
+        this.props.toggle();
     }
 
     closeDialog() {
@@ -69,6 +76,11 @@ class PaintingsList extends React.Component {
         this.setState({height: event.target.value});
     }
 
+    signOut() {
+        Api.signOut();
+        hashHistory.push('/');
+    }
+
     render() {
         const actions = [
             <FlatButton
@@ -84,21 +96,44 @@ class PaintingsList extends React.Component {
             />,
         ];
 
+        const drawerStyle = {
+            top: '64px'
+        };
         return (
-            <div class="control paintings">
-                <div class="control-header">
-                    <span>Paintings</span>
-                </div>
-                <div class="control-body">
-                    <ul class="paintings">
+            <div>
+                <Drawer
+                    docked={false}
+                    width={300}
+                    open={this.props.open}
+                    containerStyle={drawerStyle}
+                    onRequestChange={(open) => this.props.toggle()}
+                >
+                    <List className="paintings">
+                        <SubHeader>Paintings</SubHeader>
                         {this.props.paintings.map((painting, i) => {
-                            return  <li class={this.props.painting == i ? 'active' : ''} key={i}>
-                                        <a href="#" onClick={(event) => this.choosePainting(event, i)}>{painting.name}</a>
-                                    </li>
+                            return (
+                                <ListItem primaryText={painting.name}
+                                          className={this.props.painting == i ? 'active' : ''}
+                                          key={i}
+                                          leftIcon={<ColorLens />}
+                                          onClick={(event) => this.choosePainting(event, i)} />
+                            );
                         })}
-                        <div class="add-layout"><a href="#" onClick={(event) => this.openDialog(event)}>add</a></div>
-                    </ul>
-                </div>
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem primaryText="Add a new painting"
+                                  className="add-painting-button"
+                                  onClick={() => this.openDialog()} />
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem primaryText="Sign Out"
+                                  className="sign-out"
+                                  onClick={() => this.signOut()} />
+                    </List>
+                </Drawer>
+
                 <Dialog
                     title="Create a new painting"
                     actions={actions}

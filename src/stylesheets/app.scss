@@ -1,8 +1,24 @@
 #app, .app {
   height: 100%;
-  background-color: $background-color;
 }
 
 h1 {
   color: red;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-bar {
+  position: absolute;
+}
+
+.app-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: lightgray;
 }

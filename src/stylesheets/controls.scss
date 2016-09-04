@@ -1,12 +1,9 @@
-.controls {
-  position: absolute;
-  top: 0;
-  left: 0;
+.paintings .active{
+  background: rgba(0, 0, 0, 0.098) !important;
 }
 
 .control {
   position: absolute;
-  border: 1px solid $header-color;
 
   &.save {
     top: 5px;
@@ -15,9 +12,16 @@
   }
 
   &.tools {
-    width: 100px;
-    top: 30px;
-    right: 20px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 50px;
+    padding: 20px 10px;
+
+    .tool {
+      padding: 5px;
+      cursor: pointer;
+    }
 
     .active a{
       color: darkorange;
@@ -35,19 +39,40 @@
   }
 
   &.output {
-    width: 80%;
-    bottom: 30px;
-    left: -40%;
-    margin-left: 50%;
+    bottom: 10px;
+    left: 20px;
   }
 
   &.layouts {
-    width: 100px;
-    top: 150px;
-    right: 20px;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 250px;
+    padding: 20px 10px;
 
-    .active a{
-      color: darkorange;
+    .layout {
+      display: flex;
+      padding: 5px 0 5px 10px;
+
+      .layout-name {
+        flex: 1;
+      }
+    }
+
+    .layout-name {
+      color: rgb(158, 158, 158);
+    }
+
+    .active .layout-name{
+      color: rgb(244, 67, 54);
+    }
+
+    .add-layout {
+      padding: 5px 0;
+
+      a {
+        color: #0b97c4;
+      }
     }
   }
 
