@@ -75,8 +75,8 @@ class LayoutsList extends React.Component {
                         {this.props.layouts.map((layout, i) => {
                             return <li class={this.props.layout == i ? 'active' : ''} key={i}>
                                     <a href="#" onClick={(event) => this.chooseLayout(event, i)}>{layout.name}</a>
-                                    <span><input type="checkbox" defaultChecked={layout.endless} onClick={this.props.toggleEndless.bind(this, layout.id)}/></span>
-                                    <span><input type="checkbox" defaultChecked={layout.visibility} onClick={this.props.toggleVisibility.bind(this, layout.id)}/></span>
+                                    <span><input type="checkbox" checked={layout.endless} onChange={this.props.toggleEndless.bind(this, layout.id)}/></span>
+                                    <span><input type="checkbox" checked={layout.visibility} onChange={this.props.toggleVisibility.bind(this, layout.id)}/></span>
                                     <a href="#" onClick={(event) => this.removeLayout(event, layout.id)}>x</a>
                                 </li>
                         })}
