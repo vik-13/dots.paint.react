@@ -11,17 +11,21 @@ class Output extends React.Component {
                 </div>
                 <div class="control-body">
                     {this.props.layouts.map((layout, i) => {
-                        return (
-                            <div class="layout-block" key={i}>
-                                <div class="layout-body">
-                                    {layout.name} (endless: {layout.endless ? 'true' : 'false'}): [
-                                    {layout.dots.map((dot) => {
-                                        return '{x: ' + dot.x + ', y: ' + dot.y + '}';
-                                    })}
-                                    ]
+                        if (!layout.visibility) {
+                            return;
+                        } else {
+                            return (
+                                <div class="layout-block" key={i}>
+                                    <div class="layout-body">
+                                        {layout.name} (endless: {layout.endless ? 'true' : 'false'}): [
+                                        {layout.dots.map((dot) => {
+                                            return '{x: ' + dot.x + ', y: ' + dot.y + '}';
+                                        })}
+                                        ]
+                                    </div>
                                 </div>
-                            </div>
-                        );
+                            );
+                        }
                     })}
                 </div>
             </div>

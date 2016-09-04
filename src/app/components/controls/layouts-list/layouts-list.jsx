@@ -2,10 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+
 import { addLayout, removeLayout, selectLayout, toggleEndless, toggleVisibility, toggleLock } from './layouts.actions';
 import Layout from '../../paint-area/draw/layout';
 
 class LayoutsList extends React.Component {
+    state = {
+        open: false,
+        name: '',
+        width: 100,
+        height: 100
+    };
+
     constructor() {
         super();
     }
@@ -15,10 +26,10 @@ class LayoutsList extends React.Component {
         this.props.selectLayout(index);
     }
 
-    addLayout(event) {
-        event.preventDefault();
+    addLayout() {
         this.props.selectLayout(this.props.layouts.length);
-        this.props.addLayout(new Layout('bla-bla'));
+        this.props.addLayout(new Layout(this.state.name));
+        this.closeDialog();
     }
 
     removeLayout(event, id) {
@@ -26,7 +37,34 @@ class LayoutsList extends React.Component {
         this.props.removeLayout(id);
     }
 
+    openDialog(event) {
+        this.setState({open: true});
+
+        event.preventDefault();
+    }
+
+    closeDialog() {
+        this.setState({open: false});
+    }
+
+    changeName(event) {
+        this.setState({name: event.target.value});
+    }
+
     render() {
+        const actions = [
+            <FlatButton
+                label="Cancel"
+                primary={true}
+                onTouchTap={() => this.closeDialog()}
+            />,
+            <FlatButton
+                label="Ok"
+                primary={true}
+                keyboardFocused={true}
+                onTouchTap={() => this.addLayout()}
+            />,
+        ];
         return (
             <div class={this.props.painting === false ? 'control layouts locked' : 'control layouts'}>
                 <div class="control-header">
@@ -42,9 +80,23 @@ class LayoutsList extends React.Component {
                                     <a href="#" onClick={(event) => this.removeLayout(event, layout.id)}>x</a>
                                 </li>
                         })}
-                        <div class="add-layout"><a href="#" onClick={(event) => this.addLayout(event)}>add</a></div>
+                        <div class="add-layout"><a href="#" onClick={(event) => this.openDialog(event)}>add</a></div>
                     </ul>
                 </div>
+                <Dialog
+                    title="Create a new layout"
+                    actions={actions}
+                    modal={false}
+                    open={this.state.open}
+                    onRequestClose={this.handleClose}
+                >
+                    <TextField
+                        value={this.state.name}
+                        onChange={(event) => this.changeName(event)}
+                        hintText="Please enter some name..."
+                        floatingLabelText="Name"
+                    /><br />
+                </Dialog>
             </div>
         );
     }
