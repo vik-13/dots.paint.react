@@ -16,7 +16,9 @@ import Layout from '../../paint-area/draw/layout';
 class PaintingsList extends React.Component {
     state = {
         open: false,
-        paintingName: ''
+        name: '',
+        width: 100,
+        height: 100
     };
 
     constructor() {
@@ -36,7 +38,7 @@ class PaintingsList extends React.Component {
     }
 
     addPainting() {
-        let painting = new Painting(this.state.paintingName);
+        let painting = new Painting(this.state.name, this.state.width, this.state.height);
         this.props.addPainting(painting);
         this.props.removeLayouts();
         this.props.selectLayout(0);
@@ -55,8 +57,16 @@ class PaintingsList extends React.Component {
         this.setState({open: false});
     }
 
-    changePaintingName(event) {
-        this.setState({paintingName: event.target.value});
+    changeName(event) {
+        this.setState({name: event.target.value});
+    }
+
+    changeWidth(event) {
+        this.setState({width: event.target.value});
+    }
+
+    changeHeight(event) {
+        this.setState({height: event.target.value});
     }
 
     render() {
@@ -97,10 +107,24 @@ class PaintingsList extends React.Component {
                     onRequestClose={this.handleClose}
                 >
                     <TextField
-                        value={this.state.paintingName}
-                        onChange={(event) => this.changePaintingName(event)}
+                        value={this.state.name}
+                        onChange={(event) => this.changeName(event)}
                         hintText="Please enter some name..."
-                        floatingLabelText="Painting name"
+                        floatingLabelText="Name"
+                    /><br />
+                    <TextField
+                        type="number"
+                        value={this.state.width}
+                        onChange={(event) => this.changeWidth(event)}
+                        hintText="Please enter width..."
+                        floatingLabelText="Width"
+                    /><br />
+                    <TextField
+                        type="number"
+                        value={this.state.height}
+                        onChange={(event) => this.changeHeight(event)}
+                        hintText="Please enter height..."
+                        floatingLabelText="Height"
                     />
                 </Dialog>
             </div>

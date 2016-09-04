@@ -16,7 +16,9 @@ class PaintArea extends React.Component {
     render() {
         return (
             <div class={this.props.painting === false ? 'paint-area locked' : 'paint-area'}>
-                <canvas id="paint-area" width="320" height="200"
+                <canvas id="paint-area"
+                        width={this.props.painting ? this.props.paintings[this.props.painting].width : 100}
+                        height={this.props.painting ? this.props.paintings[this.props.painting].height : 100}
                         onMouseDown={(event) => this.draw.handleMouseDown(event)}
                         onMouseMove={(event) => this.draw.handleMouseMove(event)}
                         onMouseUp={(event) => this.draw.handleMouseUp(event)}/>
@@ -26,6 +28,6 @@ class PaintArea extends React.Component {
 }
 
 export default connect(
-    (state) => {return {layouts: state.layouts, painting: state.painting};},
+    (state) => {return {layouts: state.layouts, painting: state.painting, paintings: state.paintings};},
     (dispatch) => bindActionCreators({}, dispatch)
 )(PaintArea);

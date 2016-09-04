@@ -1,7 +1,9 @@
 export default class Painting {
-    constructor(name) {
+    constructor(name, width, height) {
         this.id = this.generateUniqueId();
         this.name = name;
+        this.width = width;
+        this.height = height;
     }
 
     generateUniqueId() {

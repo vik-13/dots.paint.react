@@ -2,10 +2,6 @@ export default class Render {
     constructor(canvasId, Layouts, Paint, Interact) {
         this.canvas = document.getElementById(canvasId);
         this.context = this.canvas.getContext('2d');
-        this.size = {
-            x: 320,
-            y: 200
-        };
         this.layouts = Layouts;
         this.paint = Paint;
         this.interact = Interact;
@@ -23,7 +19,7 @@ export default class Render {
 
     clean() {
         this.context.fillStyle = '#ffffff';
-        this.context.fillRect( 0, 0, this.size.x, this.size.y );
+        this.context.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight);
     }
 
     renderLayouts() {
