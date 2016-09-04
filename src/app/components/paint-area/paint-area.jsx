@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import Draw from './draw/draw';
 
 class PaintArea extends React.Component {
@@ -12,7 +15,7 @@ class PaintArea extends React.Component {
 
     render() {
         return (
-            <div class="paint-area">
+            <div class={this.props.painting === false ? 'paint-area locked' : 'paint-area'}>
                 <canvas id="paint-area" width="320" height="200"
                         onMouseDown={(event) => this.draw.handleMouseDown(event)}
                         onMouseMove={(event) => this.draw.handleMouseMove(event)}
@@ -22,4 +25,7 @@ class PaintArea extends React.Component {
     }
 }
 
-export default PaintArea;
+export default connect(
+    (state) => {return {layouts: state.layouts, painting: state.painting};},
+    (dispatch) => bindActionCreators({}, dispatch)
+)(PaintArea);

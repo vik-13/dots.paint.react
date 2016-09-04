@@ -41,6 +41,8 @@ export default function (state = [], action) {
     switch (action.type) {
         case 'ADD_LAYOUTS':
             return [...action.payload];
+        case 'REMOVE_LAYOUTS':
+            return [];
         case 'ADD_LAYOUT':
             return [...state, layout(undefined, action)];
         case 'REMOVE_LAYOUT':

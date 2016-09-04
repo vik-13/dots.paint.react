@@ -3,7 +3,7 @@ export default class Layout {
         this.id = this.generateUniqueId();
         this.name = name;
         this.visibility = true;
-        this.endless = false;
+        this.endless = true;
         this.highlightDots = false;
         this.dots = [];
     }

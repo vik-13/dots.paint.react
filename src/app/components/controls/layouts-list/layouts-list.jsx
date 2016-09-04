@@ -10,13 +10,6 @@ class LayoutsList extends React.Component {
         super();
     }
 
-    componentDidMount() {
-        if (!this.props.layouts.length) {
-            this.props.selectLayout(0);
-            this.props.addLayout(new Layout('Layout 1'));
-        }
-    }
-
     chooseLayout(event, index) {
         event.preventDefault();
         this.props.selectLayout(index);
@@ -35,7 +28,7 @@ class LayoutsList extends React.Component {
 
     render() {
         return (
-            <div class={!this.props.file ? 'control layouts locked' : 'control layouts'}>
+            <div class={this.props.painting === false ? 'control layouts locked' : 'control layouts'}>
                 <div class="control-header">
                     <span>Layouts</span>
                 </div>
@@ -58,6 +51,6 @@ class LayoutsList extends React.Component {
 }
 
 export default connect(
-    (state) => { return {layouts: state.layouts, layout: state.layout, file: state.file}; },
+    (state) => { return {layouts: state.layouts, layout: state.layout, painting: state.painting, paintings: state.paintings}; },
     (dispatch) => bindActionCreators({addLayout, removeLayout, selectLayout, toggleEndless, toggleVisibility, toggleLock}, dispatch)
 )(LayoutsList);

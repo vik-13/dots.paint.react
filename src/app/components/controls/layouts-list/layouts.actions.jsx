@@ -1,3 +1,17 @@
+export function addLayouts(layouts) {
+    return {
+        type: 'ADD_LAYOUTS',
+        payload: layouts
+    };
+}
+
+export function removeLayouts() {
+    return {
+        type: 'REMOVE_LAYOUTS',
+        payload: true
+    };
+}
+
 export function addLayout(layout) {
     return {
         type: 'ADD_LAYOUT',

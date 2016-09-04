@@ -3,9 +3,6 @@ import Render from './render';
 import Paint from './paint';
 import Interact from './interact';
 
-import store from '../../../store/store';
-import Api from '../../api/api';
-
 export default class Draw {
     constructor(canvasId) {
         this.canvasId = canvasId;
@@ -21,11 +18,6 @@ export default class Draw {
         this.render = new Render(this.canvasId, this.layouts, this.paint, this.interact);
 
         this.lifeCycle();
-
-        store.subscribe(() => {
-            const state = store.getState();
-            Api.storeData(state.layouts);
-        });
     }
 
     lifeCycle() {

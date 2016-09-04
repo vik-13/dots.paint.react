@@ -36,13 +36,23 @@ export default class Api {
         });
     }
 
-    static storeData(data) {
-        firebase.database().ref(currentUserUid + '/layouts').set([]);
-        firebase.database().ref(currentUserUid + '/layouts').set(data);
+    static storeLayouts(data, id) {
+        firebase.database().ref(currentUserUid + '/layouts/' + id).set([]);
+        firebase.database().ref(currentUserUid + '/layouts/' + id).set(data);
     }
 
-    static getData() {
+    static storePaintings(data) {
+        firebase.database().ref(currentUserUid + '/paintings').set([]);
+        firebase.database().ref(currentUserUid + '/paintings').set(data);
+    }
+
+    static getPaintings() {
         return firebase.database()
-            .ref(currentUserUid + '/layouts').once('value');
+            .ref(currentUserUid + '/paintings').once('value');
+    }
+
+    static getLayouts(id) {
+        return firebase.database()
+            .ref(currentUserUid + '/layouts/' + id).once('value');
     }
 }

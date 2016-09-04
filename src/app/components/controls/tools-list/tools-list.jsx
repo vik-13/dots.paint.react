@@ -13,7 +13,7 @@ class ToolsList extends React.Component {
 
     render() {
         return (
-            <div class={!this.props.file ? 'control tools locked' : 'control tools'}>
+            <div class={this.props.painting === false ? 'control tools locked' : 'control tools'}>
                 <div class="control-header">
                     <span>Tools</span>
                 </div>
@@ -39,6 +39,6 @@ class ToolsList extends React.Component {
 }
 
 export default connect(
-    (state) => { return {tool: state.tool, file: state.file}; },
+    (state) => { return {tool: state.tool, painting: state.painting}; },
     (dispatch) => bindActionCreators({switchTool}, dispatch)
 )(ToolsList);

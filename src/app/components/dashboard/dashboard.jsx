@@ -5,6 +5,7 @@ import ToolsList from '../controls/tools-list/tools-list';
 import Output from '../controls/output/output';
 import LayoutsList from '../controls/layouts-list/layouts-list';
 import PaintingsList from '../controls/paintings-list/paintings-list';
+import Save from '../controls/save/save';
 
 
 
@@ -16,6 +17,7 @@ export default class Dashboard extends React.Component {
     render() {
         return (
             <div class="app">
+                <Save />
                 <PaintArea />
                 <ToolsList />
                 <PaintingsList />
