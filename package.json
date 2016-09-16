@@ -13,6 +13,7 @@
   "dependencies": {
     "babel-preset-stage-2": "^6.13.0",
     "firebase": "^3.3.0",
+    "immutable": "^3.8.1",
     "material-ui": "^0.15.4",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
