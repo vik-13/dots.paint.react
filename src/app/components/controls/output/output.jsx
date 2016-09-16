@@ -47,7 +47,7 @@ class Output extends React.Component {
                                     <div className="layout-body">
                                         {layout.name}: [
                                         {layout.dots.map((dot) => {
-                                            return '{x: ' + dot.x + ', y: ' + dot.y + '}';
+                                            return '{x: ' + dot.x + ', y: ' + dot.y + '},';
                                         })}
                                         ]
                                     </div>

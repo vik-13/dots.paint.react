@@ -16,12 +16,9 @@ class PaintArea extends React.Component {
     }
 
     render() {
-        const paperStyle = {
-            marginTop: '-100px'
-        }
         return (
             <div class={this.props.painting === false ? 'paint-area locked' : 'paint-area'}>
-                <Paper zDepth={1} style={paperStyle}>
+                <Paper zDepth={1}>
                     <canvas id="paint-area"
                         width={this.props.painting ? this.props.paintings[this.props.painting].width : 100}
                         height={this.props.painting ? this.props.paintings[this.props.painting].height : 100}
