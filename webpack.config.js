@@ -1,7 +1,9 @@
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     entry: './src/main',
     output: {
-        path: 'dev/app',
+        path: 'dev',
         filename: 'app.js'
     },
     devtool: 'source-map',
@@ -19,10 +21,20 @@ module.exports = {
             {
                 test: /\.scss$/,
                 loaders: [ 'style', 'css', 'sass' ]
+            },
+            {
+                test: /\.jpg$/,
+                exclude: /(node_modules|dev)/,
+                loader: "url-loader?limit=1000000&mimetype=image/jpg"
             }
         ]
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ]
 };

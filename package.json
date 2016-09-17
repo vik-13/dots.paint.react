@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run watch & npm run serve",
-    "watch": "webpack --watch",
+    "start": "npm run watch",
+    "watch": "webpack",
     "serve": "webpack-dev-server --port 8800 --content-base dev/"
   },
   "author": "Viktor Uhryn",
@@ -28,10 +28,14 @@
     "babel-plugin-react-html-attrs": "^2.0.0",
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
+    "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.23.1",
+    "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.22.0",
     "node-sass": "^3.8.0",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.13.1"
   }
 }
